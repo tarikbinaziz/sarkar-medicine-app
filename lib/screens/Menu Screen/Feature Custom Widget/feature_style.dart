@@ -8,22 +8,26 @@ import 'package:velocity_x/velocity_x.dart';
 import '../../../consts/colors.dart';
 
 Widget customFeature(icon, String text){
-  return  Row(
-    children: [
-      Icon(
-        icon,
-        color: Colors.white,
-      )
-          .box
-          .padding(EdgeInsets.all(6))
-      .margin(EdgeInsets.only(top: 10))
-          .roundedFull
-          .color(mainColor)
-          .make(),
-      Padding(
-        padding: const EdgeInsets.only(left: 20.0),
-        child: Text(text),
-      )
-    ],
+  return  Padding(
+    padding: const EdgeInsets.only(bottom: 10.0),
+    child: Row(
+     crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          color: Colors.white,
+        )
+            .box
+            .padding(EdgeInsets.all(6))
+            .roundedFull
+            .color(mainColor)
+            .make(),
+
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: Text(text),
+        )
+      ],
+    ),
   );
 }

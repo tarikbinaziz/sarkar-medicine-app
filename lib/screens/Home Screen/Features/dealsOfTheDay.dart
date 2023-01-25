@@ -2,7 +2,7 @@ import 'package:velocity_x/velocity_x.dart';
 import '../../../consts/consts.dart';
 import 'package:flutter/material.dart';
 
-Widget DealsOfTheDay({
+Widget dealsOfTheDay({
   String? image,
   String? tittle,
   String? tk,

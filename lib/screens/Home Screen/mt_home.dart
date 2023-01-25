@@ -1,9 +1,11 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:medicine_app/consts/consts.dart';
-import 'package:medicine_app/screens/Home%20Screen/Features%20Button/frequently_asked_medicine.dart';
 import 'package:medicine_app/screens/Home%20Screen/Product%20Details/product_details.dart';
+import 'package:medicine_app/screens/Home%20Screen/See%20All/see_all.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:slide_countdown/slide_countdown.dart';
@@ -12,22 +14,26 @@ import '../../widgets/button_widget.dart';
 import '../../widgets/fab_speed_dial.dart';
 import '../../widgets/icon_button_widget.dart';
 import '../../widgets/textfield_widget.dart';
-import 'Features Button/dealsOfTheDay.dart';
-import 'Features Button/otc_medicine_container.dart';
-import 'Features Button/prescription_medicine.dart';
+import '../../widgets/url_launcher.dart';
+import 'Features/dealsOfTheDay.dart';
+import 'Features/frequently_asked_medicine.dart';
+import 'Features/otc_medicine_container.dart';
+import 'Features/prescription_medicine.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final number = "+8801325780405";
   var _currentPosition = 0;
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
   var defaultDuration = Duration(days: 2, hours: 2, minutes: 30);
   var defaultPadding = EdgeInsets.symmetric(horizontal: 10, vertical: 5);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,12 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leadingWidth: 95,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: Image.asset(
-            imgOsudKiniLogo,
-          ),
+        leadingWidth: 100,
+        leading: Container(
+          width: 120,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(imgOsudKiniFullLogo), fit: BoxFit.cover)),
         ),
         actions: [
           Padding(
@@ -48,16 +54,19 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 Container(
-                  decoration:
-                      BoxDecoration(color: mainColor, shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                      color: Colors.white, shape: BoxShape.circle),
                   child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Image.asset(icdoctor,width: 16,height: 16,)
-                  ),
+                      padding: const EdgeInsets.all(5),
+                      child: Image.asset(
+                        icdoctor,
+                        width: 16,
+                        height: 16,
+                      )),
                 ),
                 Text(
                   callDoctor,
-                  style: TextStyle(color: tittleColor),
+                  style: TextStyle(color: titleColor, fontSize: 12),
                 )
               ],
             ),
@@ -70,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration:
                       BoxDecoration(color: mainColor, shape: BoxShape.circle),
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Icon(
                       Icons.play_arrow,
                       size: 16,
@@ -79,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Text(
                   tutorial,
-                  style: TextStyle(color: tittleColor),
+                  style: TextStyle(color: titleColor, fontSize: 12),
                 )
               ],
             ),
@@ -92,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration:
                       BoxDecoration(color: mainColor, shape: BoxShape.circle),
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Icon(
                       Icons.person,
                       size: 16,
@@ -101,11 +110,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Text(
                   profile,
-                  style: TextStyle(color: tittleColor),
+                  style: TextStyle(color: titleColor, fontSize: 12),
                 )
               ],
             ),
-          ),
+          ).onTap(()=>MenuScreen().launch(context)),
         ],
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -117,87 +126,94 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: buildSpeedDial(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                  width: context.width - 80,
-                  child: customTextField(hint: searchMedicine)),
-              5.heightBox,
-              CarouselSlider.builder(
-                  itemCount: bannerList.length,
-                  itemBuilder: (_, index, realIndex) {
-                    return Container(
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Image.asset(
-                        bannerList[index],
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  },
-                  options: CarouselOptions(
-                      height: 140,
-                      enlargeCenterPage: true,
-                      autoPlay: true,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _currentPosition = index;
-                        });
-                      })),
-              5.heightBox,
-              DotsIndicator(
-                dotsCount: bannerList.length,
-                position: _currentPosition.toDouble(),
-              ),
-              24.heightBox,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-              //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        uploadPrescription,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
-                      5.heightBox,
-                      SizedBox(
-                        width: 195,
-                        child: Text(
-                          banDescription,
-                          textAlign: TextAlign.start,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: SizedBox(
+                      width: ContextExtensions(context).width() - 80,
+                      child: customTextField(hint: searchMedicine)),
+                ),
+                16.heightBox,
+                CarouselSlider.builder(
+                    itemCount: bannerList.length,
+                    itemBuilder: (_, index, realIndex) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: Image.asset(
+                          bannerList[index],
+                          fit: BoxFit.fill,
+                        ),
+                      );
+                    },
+                    options: CarouselOptions(
+                        height: 120,
+                        enlargeCenterPage: true,
+                        viewportFraction: 1,
+                        autoPlay: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentPosition = index;
+                          });
+                        })),
+                10.heightBox,
+                Center(
+                  child: DotsIndicator(
+                    dotsCount: bannerList.length,
+                    position: _currentPosition.toDouble(),
+                  ),
+                ),
+                24.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          uploadPrescription,
                           style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                        5.heightBox,
+                        SizedBox(
+                          width: ContextExtensions(context).width() / 1.7,
+                          child: Text(
+                            banDescription,
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ),
-                      5.heightBox,
-                      ourButton(
-                          onPress: () {},
-                          color: mainColor,
-                          textColor: whiteColor,
-                          tittle: uploadPrescription)
-                    ],
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      height: 100,
+                        10.heightBox,
+                        ourButton(
+                            width: ContextExtensions(context).width() / 1.7,
+                            onPress: () {},
+                            color: mainColor,
+                            textColor: white,
+                            tittle: uploadPrescription)
+                      ],
+                    ),
+                    SizedBox(
+                      height: 120,
                       width: 100,
                       child: Card(
                         color: mainColor,
                         elevation: 6,
-                        shape: OutlineInputBorder(borderRadius: BorderRadius.circular(20),borderSide: BorderSide.none),
-                        child:Padding(
+                        shape: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide.none),
+                        child: Padding(
                           padding: const EdgeInsets.all(6.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -205,462 +221,305 @@ class _HomeScreenState extends State<HomeScreen> {
                               Image.asset(icMedicine),
                               Text(
                                 requestMedicine,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Colors.white,
-                                   ),
+                                  color: Colors.white,
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-              24.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    famillyNeed,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    seeAll,
-                    style: TextStyle(fontSize: 16, color: mainColor),
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(34),
-                                    bottomLeft: Radius.circular(20),
-                                  ),
-                                  image: DecorationImage(
-                                      image: AssetImage(imgBaby),
-                                      fit: BoxFit.cover)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                baby,
-                                style: TextStyle(color: mainColor),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ).box.rounded.outerShadow.margin(EdgeInsets.all(4)).make()
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(34),
-                                    bottomLeft: Radius.circular(20),
-                                  ),
-                                  image: DecorationImage(
-                                      image: AssetImage(imgMom),
-                                      fit: BoxFit.cover)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                mom,
-                                style: TextStyle(color: mainColor),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ).box.rounded.outerShadow.margin(EdgeInsets.all(4)).make()
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 25,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(300),
-                                    bottomLeft: Radius.circular(300),
-                                  ),
-                                  image: DecorationImage(
-                                      image: AssetImage(imgAdole),
-                                      fit: BoxFit.cover)),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                adolescence,
-                                style: TextStyle(color: mainColor),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ).box.rounded.outerShadow.margin(EdgeInsets.all(4)).make()
-                    ],
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    frequentlyAskedMedicineTxt,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    seeAll,
-                    style: TextStyle(fontSize: 16, color: mainColor),
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                children: [
-                  Expanded(
-                    child: frequentlyAskedMedicine(
-                            image: imgNapa, tittle: napa, tk: tk80, disTk: tk88)
-                        .onTap(() {
-                      Get.to(() => ProductDetailsScreen());
-                    }),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: frequentlyAskedMedicine(
-                        image: imgLosectil,
-                        tittle: losectil,
-                        tk: tk4,
-                        disTk: tk5),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: frequentlyAskedMedicine(
-                        image: imgAcePlus,
-                        tittle: acePlus,
-                        tk: tk1,
-                        disTk: tk2),
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    prescriptionMedicines,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    seeAll,
-                    style: TextStyle(fontSize: 16, color: mainColor),
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                children: [
-                  Expanded(
-                    child: prescriptionMedicine(
-                      image: imgNapa,
-                      tittle: napa,
-                      tk: tk80,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: prescriptionMedicine(
-                      image: imgLosectil,
-                      tittle: losectil,
-                      tk: tk4,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: prescriptionMedicine(
-                      image: imgAcePlus,
-                      tittle: acePlus,
-                      tk: tk1,
-                    ),
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    dealsOfTheDay,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  SlideCountdownSeparated(
-                    decoration: BoxDecoration(color: Colors.blue),
-                    duration: defaultDuration,
-                  ),
-                  Spacer(),
-                  Text(
-                    seeAll,
-                    style: TextStyle(fontSize: 16, color: mainColor),
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Container(
-                width: double.infinity,
-                height: 120,
-                decoration: BoxDecoration(image: DecorationImage(image: AssetImage(b2),fit: BoxFit.fill)),
-              ),
-              24.heightBox,
-              Row(
-                children: [
-                  Expanded(
-                    child: DealsOfTheDay(
-                      image: imgNapa,
-                      tittle: napa,
-                      tk: tk80,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: DealsOfTheDay(
-                      image: imgLosectil,
-                      tittle: losectil,
-                      tk: tk4,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: DealsOfTheDay(
-                      image: imgAcePlus,
-                      tittle: acePlus,
-                      tk: tk1,
-                    ),
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    otcMedicine,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    seeAll,
-                    style: TextStyle(fontSize: 16, color: mainColor),
-                  ),
-                ],
-              ),
-              10.heightBox,
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                child: Row(
-                  children: List.generate(
-                      4,
-                      (index) => OtcMedicine(
-                          image: otcImageList[index],
-                          tittle: otcDescriptionList[index])).toList(),
+                    )
+                  ],
                 ),
-              ),
-              16.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    diabetisMedicine,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    seeAll,
-                    style: TextStyle(fontSize: 16, color: mainColor),
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                children: [
-                  Expanded(
-                    child: prescriptionMedicine(
+                24.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      frequentlyAskedMedicineTxt,
+                      style: TextStyle(
+                          color: titleColor, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      seeAll,
+                      style: TextStyle(color: white),
+                    )
+                        .onTap(() => SeeAllScreen().launch(context))
+                        .box
+                        .color(mainColor)
+                        .padding(EdgeInsets.all(4))
+                        .roundedSM
+                        .make(),
+                  ],
+                ),
+                24.heightBox,
+                HorizontalList(
+                  runSpacing: 0.0,
+                  padding: EdgeInsets.zero,
+                  physics: BouncingScrollPhysics(),
+                  itemCount: frequentlyAskedMedicineImgList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return frequentlyAskedMedicine(
+                        image: frequentlyAskedMedicineImgList[index],
+                        tittle: frequentlyAskedMedicineTitleList[index],
+                        tk: tk8);
+                  },
+                ).onTap(() {
+                  Get.to(() => ProductDetailsScreen());
+                }),
+                24.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      prescriptionMedicines,
+                      style: TextStyle(
+                          color: titleColor, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      seeAll,
+                      style: TextStyle(color: white),
+                    )
+                        .onTap(() => SeeAllScreen().launch(context))
+                        .box
+                        .color(mainColor)
+                        .padding(EdgeInsets.all(4))
+                        .roundedSM
+                        .make(),
+                  ],
+                ),
+                24.heightBox,
+                HorizontalList(
+                  runSpacing: 0.0,
+                  padding: EdgeInsets.zero,
+                  physics: BouncingScrollPhysics(),
+                  itemCount: frequentlyAskedMedicineImgList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return frequentlyAskedMedicine(
+                        image: frequentlyAskedMedicineImgList[index],
+                        tittle: frequentlyAskedMedicineTitleList[index],
+                        tk: tk8);
+                  },
+                ),
+                24.heightBox,
+                Container(
+                  width: double.infinity,
+                  height: 120,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(b2), fit: BoxFit.fill)),
+                ),
+                24.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      dealsOfTheDayTxt,
+                      style: TextStyle(
+                          color: titleColor, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 6,
+                    ),
+                    SlideCountdownSeparated(
+                      decoration: BoxDecoration(color: Colors.blue),
+                      duration: defaultDuration,
+                    ),
+                    Spacer(),
+                    Text(
+                      seeAll,
+                      style: TextStyle(color: white),
+                    )
+                        .onTap(() => SeeAllScreen().launch(context))
+                        .box
+                        .color(mainColor)
+                        .padding(EdgeInsets.all(4))
+                        .roundedSM
+                        .make(),
+                  ],
+                ),
+                24.heightBox,
+                HorizontalList(
+                  runSpacing: 0.0,
+                  padding: EdgeInsets.zero,
+                  physics: BouncingScrollPhysics(),
+                  itemCount: frequentlyAskedMedicineImgList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return dealsOfTheDay(
+                        image: frequentlyAskedMedicineImgList[index],
+                        tittle: frequentlyAskedMedicineTitleList[index],
+                        tk: tk8);
+                  },
+                ),
+                24.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      otcMedicineTxt,
+                      style: TextStyle(
+                          color: titleColor, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      seeAll,
+                      style: TextStyle(color: white),
+                    )
+                        .onTap(() => SeeAllScreen().launch(context))
+                        .box
+                        .color(mainColor)
+                        .padding(EdgeInsets.all(4))
+                        .roundedSM
+                        .make(),
+                  ],
+                ),
+                16.heightBox,
+                HorizontalList(
+                  runSpacing: 0.0,
+                  padding: EdgeInsets.zero,
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 6,
+                  itemBuilder: (BuildContext context, int index) {
+                    return otcMedicine(
+                        image: frequentlyAskedMedicineImgList[index],
+                        title: napa);
+                  },
+                ),
+                16.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      diabetisMedicine,
+                      style: TextStyle(
+                          color: titleColor, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      seeAll,
+                      style: TextStyle(color: white),
+                    )
+                        .onTap(() => SeeAllScreen().launch(context))
+                        .box
+                        .color(mainColor)
+                        .padding(EdgeInsets.all(4))
+                        .roundedSM
+                        .make(),
+                  ],
+                ),
+                24.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    prescriptionMedicine(
                       image: imgNapa,
                       tittle: napa,
                       tk: tk80,
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: prescriptionMedicine(
+                    prescriptionMedicine(
                       image: imgLosectil,
                       tittle: losectil,
                       tk: tk4,
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  prescriptionMedicine(
-                    image: imgAcePlus,
-                    tittle: acePlus,
-                    tk: tk1,
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    medicalEquipment,
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    seeAll,
-                    style: TextStyle(fontSize: 16, color: mainColor),
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Row(
-                children: [
-                  Expanded(
-                    child: prescriptionMedicine(
-                      image: "assets/images/m1.png",
-                      tittle: "BABYLY Infrared",
-                      tk: tk80,
+                    prescriptionMedicine(
+                      image: imgAcePlus,
+                      tittle: acePlus,
+                      tk: tk1,
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: prescriptionMedicine(
-                      image: "assets/images/m2.png",
-                      tittle: "Hand Axillary...",
-                      tk: tk4,
+                  ],
+                ),
+                24.heightBox,
+                Container(
+                  width: double.infinity,
+                  height: 120,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(b2), fit: BoxFit.fill)),
+                ),
+                24.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      familyNeed,
+                      style: TextStyle(
+                          color: titleColor, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  prescriptionMedicine(
-                    image: "assets/images/m1.png",
-                    tittle: "BABYLY Infrared",
-                    tk: tk80,
-                  ),
-                ],
-              ),
-              24.heightBox,
-              Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            ambulanceService,
+                    Text(
+                      seeAll,
+                      style: TextStyle(color: white),
+                    )
+                        .onTap(() => SeeAllScreen().launch(context))
+                        .box
+                        .color(mainColor)
+                        .padding(EdgeInsets.all(4))
+                        .roundedSM
+                        .make(),
+                  ],
+                ),
+                24.heightBox,
+                HorizontalList(
+                  runSpacing: 0.0,
+                  padding: EdgeInsets.zero,
+                  physics: BouncingScrollPhysics(),
+                  itemCount: familyNeedTitleList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return otcMedicine(
+                        image: familyNeedImageList[index],
+                        title: familyNeedTitleList[index]);
+                  },
+                ),
+                24.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          ambulanceService,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                        10.heightBox,
+                        SizedBox(
+                          width: ContextExtensions(context).width() / 1.8,
+                          child: Text(
+                            ambulanceDescription,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16),
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                          5.heightBox,
-                          SizedBox(
-                            width: 270,
-                            child: Text(
-                              ambulanceDescription,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
+                        ),
+                        10.heightBox,
+                        ourIconButton(
+                          icon: MdiIcons.phone,
+                            onPress: () =>  launchDialer(number),
+                            color: mainColor,
+                            textColor: white,
+                            tittle: mobileNumber,
+                            width: ContextExtensions(context).width() / 2)
+                      ],
+                    ),
+                    Container(
+                      width: 140,
+                      height: 120,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(
+                                imgAmbulance,
                               ),
-                            ),
-                          ),
-                          5.heightBox,
-                          ourIconButton(
-                              onPress: () {},
-                              color: mainColor,
-                              textColor: whiteColor,
-                              tittle: mobileNumber)
-                        ],
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: context.width / 2,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                              imgAmbulance,
-                            ),
-                            fit: BoxFit.cover)),
-                  )
-                ],
-              ),
-            ],
+                              fit: BoxFit.cover)),
+                    ),
+                  ],
+                ),
+                24.heightBox,
+              ],
+            ),
           ),
         ),
       ),

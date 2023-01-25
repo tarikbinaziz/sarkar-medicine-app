@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:medicine_app/consts/consts.dart';
+import 'package:medicine_app/screens/Auth/signin.dart';
+import 'package:medicine_app/screens/Menu%20Screen/Add%20Address/my_address.dart';
 import 'package:medicine_app/screens/Menu%20Screen/Feature%20Custom%20Widget/feature_style.dart';
+import 'package:medicine_app/screens/Menu%20Screen/Order%20Details/order_details.dart';
+import 'package:medicine_app/screens/Menu%20Screen/Support%20Center/support_center.dart';
+import 'package:medicine_app/screens/Menu%20Screen/Wishlist/wishlist.dart';
+import 'package:medicine_app/widgets/Custom%20Appbar/custom_appBar.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import 'Complain Suggestion/complain_suggestion.dart';
+import 'Edit Profile/edit_profile.dart';
+import 'Settings/settings.dart';
+import 'Term Condition/term_condition.dart';
+import 'Truck Order/truck_order.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -12,30 +25,31 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        leadingWidth: 95,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 6.0),
-          child: Image.asset(
-            imgOsudKiniLogo,
-          ),
-        ),
-        title: Text(
-          userProfile,
-          style: TextStyle(color: tittleColor),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Colors.white, mainColor.withOpacity(0.7)]),
-          ),
-        ),
-      ),
+      appBar: customAppBar(title: userProfile),
+      // AppBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0,
+      //   centerTitle: true,
+      //   leadingWidth: 100,
+      //   leading: Container(
+      //     width: 120,
+      //     decoration: BoxDecoration(
+      //         image: DecorationImage(
+      //             image: AssetImage(imgOsudKiniFullLogo), fit: BoxFit.cover)),
+      //   ),
+      //   title: Text(
+      //     userProfile,
+      //     style: TextStyle(color: titleColor),
+      //   ),
+      //   flexibleSpace: Container(
+      //     decoration: BoxDecoration(
+      //       gradient: LinearGradient(
+      //           begin: Alignment.topCenter,
+      //           end: Alignment.bottomCenter,
+      //           colors: <Color>[Colors.white, mainColor.withOpacity(0.7)]),
+      //     ),
+      //   ),
+      // ),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -85,15 +99,15 @@ class MenuScreen extends StatelessWidget {
                   indent: 50,
                 ),
                 24.heightBox,
-                customFeature(MdiIcons.shopping, myOrder),
-                customFeature(Icons.location_on_outlined, myAdress),
-                customFeature(MdiIcons.heart, myAdress),
-                customFeature(Icons.add_location_alt_outlined, truckOrder),
-                customFeature(MdiIcons.accountEdit, truckOrder),
-                customFeature(MdiIcons.faceAgent, supportCenter),
-                customFeature(MdiIcons.noteAlert, complainSuggestion),
-                customFeature(Icons.settings, settings),
-                customFeature(Icons.book_online, termsCondition),
+                customFeature(MdiIcons.shopping, myOrder).onTap(()=>OrderDetailsScreen().launch(context)),
+                customFeature(Icons.location_on_outlined, myAdress).onTap(()=>MyAddressScreen().launch(context)),
+                customFeature(MdiIcons.heart, wishlist).onTap(() => WishlistScreen().launch(context)),
+                customFeature(Icons.add_location_alt_outlined, trackOrder).onTap(()=>TrackOrderScreen().launch(context)),
+                customFeature(MdiIcons.accountEdit, editProfile).onTap(() => EditProfileScreen().launch(context)),
+                customFeature(MdiIcons.faceAgent, supportCenter).onTap(()=>SupportCenterScreen().launch(context)),
+                customFeature(MdiIcons.noteAlert, complainSuggestion).onTap(()=>ComplainSuggestionScreen().launch(context)),
+                customFeature(Icons.settings, settings).onTap(()=>SettingsScreen().launch(context)),
+                customFeature(Icons.book_online, termsCondition).onTap(()=>TermCondition().launch(context)),
                 10.heightBox,
                 Divider(
                   thickness: 1,
@@ -117,7 +131,8 @@ class MenuScreen extends StatelessWidget {
                       child: Center(child: Text(logOut)),
                     )
                   ],
-                )
+                ).onTap(()=>SigninScreen().launch(context)),
+                20.heightBox,
               ],
             ),
           ),

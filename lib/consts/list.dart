@@ -1,13 +1,63 @@
+import 'package:medicine_app/consts/strings.dart';
+
 import 'images.dart';
 
 const bannerList = [b1, b2, b3, b4];
-const otcImageList = [
-  "assets/images/otc1.png",
-  "assets/images/otc2.png",
-  "assets/images/otc3.png",
-  "assets/images/otc1.png",
-
+const frequentlyAskedMedicineImgList = [
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+];const seeAllFrequentlyAskedMedicineImgList = [
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
 ];
+const frequentlyAskedMedicineTitleList = [
+  napa,
+  losectil,
+  acePlus,
+  napa,
+  losectil,
+  acePlus,
+];const seeAllfrequentlyAskedMedicineTitleList = [
+  napa,
+  losectil,
+  acePlus,
+  napa,
+  losectil,
+  acePlus,
+  napa,
+  losectil,
+  acePlus,
+  napa,
+  losectil,
+  acePlus,napa,
+  losectil,
+  acePlus,
+  napa,
+  losectil,
+  acePlus,
+];
+const familyNeedImageList = [imgBaby, imgMom, imgAdole, imgMen, imgWomen];
+const familyNeedTitleList = [baby, mom, adolescence, men, women];
 const otcDescriptionList = [
   "Chloroxyleno",
   "Back pain",

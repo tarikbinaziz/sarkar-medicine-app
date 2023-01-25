@@ -6,11 +6,11 @@ Widget frequentlyAskedMedicine({
   String? image,
   String? tittle,
   String? tk,
-  String? disTk,
+
 }) {
   return Container(
     width: 105,
-    padding: EdgeInsets.only(top: 6,bottom: 6),
+    padding: EdgeInsets.all( 6),
     decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -47,17 +47,8 @@ Widget frequentlyAskedMedicine({
                   ),
                   SizedBox(width: 5,),
                   Text(
-                    tk80,
+                    tk!,
                     style: TextStyle(color: redColorMain,),
-                  ),
-                  SizedBox(width: 10,),
-                  ImageIcon(
-                    AssetImage(icTakaSign),
-                    size: 8,
-                  ),
-                  Text(
-                    tk80,
-                    style: TextStyle(color: darkFontGrey, decoration: TextDecoration.lineThrough),
                   ),
                     ],
                   )

@@ -48,16 +48,16 @@ class _UploadScreenState extends State<UploadScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
-        leadingWidth: 95,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(
-            imgOsudKiniLogo,
-          ),
+        leadingWidth: 100,
+        leading: Container(
+          width: 120,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(imgOsudKiniFullLogo), fit: BoxFit.cover)),
         ),
         title: Text(
           prescription,
-          style: TextStyle(color: tittleColor, fontWeight: FontWeight.bold),
+          style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
         ),
         actions: [
           Padding(
@@ -99,7 +99,7 @@ class _UploadScreenState extends State<UploadScreen> {
                     child: Text(
                       uploadPrescription,
                       style: TextStyle(
-                          color: tittleColor,
+                          color: titleColor,
                           fontSize: 26,
                           fontWeight: FontWeight.bold),
                     ),

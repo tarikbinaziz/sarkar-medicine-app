@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../consts/consts.dart';
 
@@ -10,7 +11,7 @@ Widget customTextField({String? tittle,String? hint,controller}) {
     child: TextFormField(
       //   controller: controller,
       decoration: InputDecoration(
-          fillColor: lightGrey,
+          fillColor: lightGray,
           filled: true,
           hintText: hint,
           isDense: true,

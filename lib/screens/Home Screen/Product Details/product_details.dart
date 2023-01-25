@@ -30,18 +30,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       backgroundColor: bgColor,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        centerTitle: true,
         elevation: 0,
-        leadingWidth: 95,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 6.0),
-          child: Image.asset(
-            imgOsudKiniLogo,
-          ),
-        ),
+        leading: BackButton(color: titleColor,),
+        // leadingWidth: 95,
         title:  Text(
           myCart,
-          style: TextStyle(color: tittleColor, fontWeight: FontWeight.bold),
+          style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
         ),
         actions: [
           Container(
@@ -94,7 +88,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   children: [
                   Text(
                     price,
-                    style: TextStyle(color: tittleColor, fontWeight: FontWeight.w500),
+                    style: TextStyle(color: titleColor, fontWeight: FontWeight.w500),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +200,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       icTakaSign,
                     ),
                     size: 12,
-                    color: tittleColor,
+                    color: titleColor,
                   ),
                   SizedBox(
                     width: 5,
@@ -214,7 +208,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   Text(
                     tk7,
                     style: TextStyle(
-                        color: tittleColor, fontWeight: FontWeight.bold),
+                        color: titleColor, fontWeight: FontWeight.bold),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0),
@@ -250,15 +244,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
                Text(
                 cartNapa,
-                style: TextStyle(color: tittleColor, fontWeight: FontWeight.bold),
+                style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
               ),
               Text(
                 paracetamol500,
-                style: TextStyle(color: tittleColor, fontWeight: FontWeight.w500),
+                style: TextStyle(color: titleColor, fontWeight: FontWeight.w500),
               ),
               Text(
                 beximcoPharmaLtd,
-                style: TextStyle(color: tittleColor, fontWeight: FontWeight.w500),
+                style: TextStyle(color: titleColor, fontWeight: FontWeight.w500),
               ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
@@ -286,7 +280,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               Text(
                 offerDetails,
-                style: TextStyle(color: tittleColor, fontWeight: FontWeight.bold),
+                style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
               ).box.border(color: textFieldGrey).padding(EdgeInsets.all(20)).make(),
               SizedBox(
                 height: 24,
@@ -294,7 +288,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
               Text(
                 alternativeBrand,
-                style: TextStyle(color: tittleColor, fontWeight: FontWeight.bold),
+                style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 16,
