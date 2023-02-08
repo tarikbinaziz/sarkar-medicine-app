@@ -2,14 +2,14 @@
 const home = "Home", category = "Category", cart = "Cart", account = "Account";
 
 //Home Strings
-const callDoctor = "  On call Doctor";
+const callDoctor = "Calling Doctor";
 const tutorial = "Tutorial";
 const profile = "Profile";
 const requestMedicine = "Request Medicine";
-const searchMedicine = "Search Medicine";
+const searchMedicine = "Search for medicines/products";
+const searchByBrand="Search by brand/generic";
 const uploadPrescription = "Upload Prescription";
-const banDescription =
-    "If you need medicine and/or any health related products via PrescriptionSave up to 10% off";
+const banDescription ="Upload your prescription to get upto 15% discount";
 const seeAll = "SEE ALL";
 const familyNeed = "Family Needs";
 const baby = "Baby";
@@ -35,8 +35,11 @@ const diabetisMedicine = "Diabetis Medicine";
 const medicalEquipment = "Medical Equipment";
 const ambulanceService = "Ambulance Service";
 const ambulanceDescription =
-    "24 Hours Ambulance service in Dhaka, Bangladesh. We Provide Ac Ambulance, Non-Ac Ambulance, Freezing ambulance, and ICU Ambulance service.";
+    "24 Hours Ambulance service in Dhaka. We Provide Ac Ambulance, Non-Ac Ambulance, Freezing ambulance service.";
 const mobileNumber = "+8801325780405";
+const tablet="Tablet";
+
+
 
 //product details screen
 const myCart = "MY CART";
@@ -62,7 +65,7 @@ const buyNow = "Buy Now";
 const addToCart = "Add to cart";
 const alternativeBrand = "Alternative Brand";
 const offerDetails =
-    "GET 7% discount in all products\nPurchases 4000+ GET 8% discount\nPurchases 8000+ GET 9% discount\nPurchases 12000+ GET 10% discount";
+    "GET 7% discount in all products Purchases 4000+ GET 8% discount Purchases 8000+ GET 9% discount Purchases 12000+ GET 10% discount";
 
 //prescription strings
 const prescription = "PRESCRIPTION";
@@ -82,12 +85,12 @@ const rakib = "Rakib H.";
 const eng = "ENG";
 const bangla = "বাংলা";
 const myOrder = "My Order";
-const myAdress = "My Adress";
+const myAdress = "My Address";
 const wishlist = "Wishlist";
 const trackOrder = "Track Order";
 const editProfile = "Edit Profile";
 const supportCenter = "Support Center";
-const complainSuggestion = "Complain & Suggestion";
+const complainSuggestion = "Review/Feedback";
 const settings = "Settings";
 const termsCondition = "Terms & Condition";
 const logOut = "Log Out";

@@ -6,11 +6,10 @@ Widget frequentlyAskedMedicine({
   String? image,
   String? tittle,
   String? tk,
-
 }) {
   return Container(
-    width: 105,
-    padding: EdgeInsets.all( 6),
+    width: 90,
+    padding: EdgeInsets.all(6),
     decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -25,7 +24,7 @@ Widget frequentlyAskedMedicine({
               image:
                   DecorationImage(image: AssetImage(image!), fit: BoxFit.fill)),
         ),
-        5.heightBox,
+        Spacer(),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Column(
@@ -37,6 +36,7 @@ Widget frequentlyAskedMedicine({
                 style:
                     TextStyle(color: darkFontGrey, fontWeight: FontWeight.w500),
               ),
+              5.heightBox,
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -45,19 +45,36 @@ Widget frequentlyAskedMedicine({
                     size: 12,
                     color: redColorMain,
                   ),
-                  SizedBox(width: 5,),
+                  SizedBox(
+                    width: 5,
+                  ),
                   Text(
                     tk!,
-                    style: TextStyle(color: redColorMain,),
+                    style: TextStyle(
+                      color: redColorMain,
+                    ),
                   ),
-                    ],
-                  )
+                  Spacer(),
+                  ImageIcon(
+                    AssetImage(icTakaSign),
+                    size: 8,
+                    color: fontGrey,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    tk,
+                    style: TextStyle(
+                        color: fontGrey,
+                        decoration: TextDecoration.lineThrough),
+                  ),
                 ],
-              ),
+              )
+            ],
+          ),
         )
-          ],
-        ),
-
-  ).box.topRounded().outerShadowSm.rounded.make();
-
+      ],
+    ),
+  ).box.topRounded().outerShadow.topRounded().margin(EdgeInsets.all(2)).make();
 }

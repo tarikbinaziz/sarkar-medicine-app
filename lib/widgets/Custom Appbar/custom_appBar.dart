@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../consts/colors.dart';
 import '../../consts/images.dart';
 
-AppBar customAppBar({title}){
+AppBar customAppBar({title,list}){
   return  AppBar(
     backgroundColor: Colors.white,
     titleSpacing: -10,
@@ -34,6 +34,7 @@ AppBar customAppBar({title}){
     ),
       ],
     ),
+    actions:list,
     flexibleSpace: Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(

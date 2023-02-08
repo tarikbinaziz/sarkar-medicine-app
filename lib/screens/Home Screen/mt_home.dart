@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:medicine_app/consts/consts.dart';
-import 'package:medicine_app/screens/Home%20Screen/Product%20Details/product_details.dart';
 import 'package:medicine_app/screens/Home%20Screen/See%20All/see_all.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -13,12 +12,15 @@ import '../../consts/list.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/fab_speed_dial.dart';
 import '../../widgets/icon_button_widget.dart';
-import '../../widgets/textfield_widget.dart';
 import '../../widgets/url_launcher.dart';
 import 'Features/dealsOfTheDay.dart';
+import 'Features/diabetes_medicine.dart';
+import 'Features/familly_needs.dart';
 import 'Features/frequently_asked_medicine.dart';
+import 'Features/medical_equipment.dart';
 import 'Features/otc_medicine_container.dart';
 import 'Features/prescription_medicine.dart';
+import "package:flutter_feather_icons/flutter_feather_icons.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,7 +29,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final number = "+8801325780405";
   var _currentPosition = 0;
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(top: 4.0, right: 8),
+            padding: const EdgeInsets.only(top: 4.0, right: 5),
             child: Column(
               children: [
                 Container(
@@ -114,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               ],
             ),
-          ).onTap(()=>MenuScreen().launch(context)),
+          ).onTap(() => MenuScreen().launch(context)),
         ],
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -131,15 +132,25 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: SizedBox(
-                      width: ContextExtensions(context).width() - 80,
-                      child: customTextField(hint: searchMedicine)),
+                AppTextField(
+                  textFieldType: TextFieldType.NAME,
+                  decoration: InputDecoration(
+                      hintText: searchMedicine,
+                      contentPadding: EdgeInsets.only(left: 20),
+                      hintStyle: TextStyle(color: textFieldGrey),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: mainColor),
+                          borderRadius: BorderRadius.circular(30)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: mainColor),
+                          borderRadius: BorderRadius.circular(30)),
+                      suffixIcon: Icon(
+                        FeatherIcons.search,
+                      )),
                 ),
-                16.heightBox,
+                24.heightBox,
                 CarouselSlider.builder(
                     itemCount: bannerList.length,
                     itemBuilder: (_, index, realIndex) {
@@ -152,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     options: CarouselOptions(
-                        height: 120,
+                        height: 140,
                         enlargeCenterPage: true,
                         viewportFraction: 1,
                         autoPlay: true,
@@ -161,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             _currentPosition = index;
                           });
                         })),
-                10.heightBox,
+                24.heightBox,
                 Center(
                   child: DotsIndicator(
                     dotsCount: bannerList.length,
@@ -205,29 +216,27 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 120,
+                      height: 110,
                       width: 100,
                       child: Card(
+                        margin: EdgeInsets.zero,
                         color: mainColor,
                         elevation: 6,
                         shape: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide.none),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(icMedicine),
-                              Text(
-                                requestMedicine,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(icMedicine),
+                            Text(
+                              requestMedicine,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     )
@@ -236,6 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 24.heightBox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       frequentlyAskedMedicineTxt,
@@ -249,26 +259,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         .onTap(() => SeeAllScreen().launch(context))
                         .box
                         .color(mainColor)
-                        .padding(EdgeInsets.all(4))
                         .roundedSM
+                        .padding(EdgeInsets.all(4))
                         .make(),
                   ],
                 ),
                 24.heightBox,
-                HorizontalList(
-                  runSpacing: 0.0,
-                  padding: EdgeInsets.zero,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: frequentlyAskedMedicineImgList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return frequentlyAskedMedicine(
-                        image: frequentlyAskedMedicineImgList[index],
-                        tittle: frequentlyAskedMedicineTitleList[index],
-                        tk: tk8);
-                  },
-                ).onTap(() {
-                  Get.to(() => ProductDetailsScreen());
-                }),
+                GridView.count(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: 0.73,
+                  children: List.generate(
+                      9,
+                      (index) => frequentlyAskedMedicine(
+                          image: frequentlyAskedMedicineImgList[index],
+                          tittle: frequentlyAskedMedicineTitleList[index],
+                          tk: tk8)),
+                ),
                 24.heightBox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -291,22 +301,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 24.heightBox,
-                HorizontalList(
-                  runSpacing: 0.0,
-                  padding: EdgeInsets.zero,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: frequentlyAskedMedicineImgList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return frequentlyAskedMedicine(
-                        image: frequentlyAskedMedicineImgList[index],
-                        tittle: frequentlyAskedMedicineTitleList[index],
-                        tk: tk8);
-                  },
+
+                GridView.count(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio:0.73,
+                  children: List.generate(
+                      9,
+                          (index) => prescriptionMedicine(
+                          image: frequentlyAskedMedicineImgList[index],
+                          tittle: frequentlyAskedMedicineTitleList[index],
+                          tk: tk8)),
                 ),
                 24.heightBox,
                 Container(
                   width: double.infinity,
-                  height: 120,
+                  height: 140,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(b2), fit: BoxFit.fill)),
@@ -341,17 +354,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 24.heightBox,
-                HorizontalList(
-                  runSpacing: 0.0,
-                  padding: EdgeInsets.zero,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: frequentlyAskedMedicineImgList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return dealsOfTheDay(
-                        image: frequentlyAskedMedicineImgList[index],
-                        tittle: frequentlyAskedMedicineTitleList[index],
-                        tk: tk8);
-                  },
+                GridView.count(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: 0.73,
+                  children: List.generate(
+                      9,
+                          (index) => dealsOfTheDay(
+                              image: frequentlyAskedMedicineImgList[index],
+                              tittle: frequentlyAskedMedicineTitleList[index],
+                              tk: tk8)
+                  ),
                 ),
                 24.heightBox,
                 Row(
@@ -375,16 +391,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 16.heightBox,
-                HorizontalList(
-                  runSpacing: 0.0,
-                  padding: EdgeInsets.zero,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: 6,
-                  itemBuilder: (BuildContext context, int index) {
-                    return otcMedicine(
-                        image: frequentlyAskedMedicineImgList[index],
-                        title: napa);
-                  },
+                GridView.count(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: 0.73,
+                  children: List.generate(
+                      9,
+                          (index) => otcMedicine(
+                              image: frequentlyAskedMedicineImgList[index],
+                              tittle: frequentlyAskedMedicineTitleList[index],
+                              tk: tk8)
+                  ),
                 ),
                 16.heightBox,
                 Row(
@@ -408,33 +428,66 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 24.heightBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    prescriptionMedicine(
-                      image: imgNapa,
-                      tittle: napa,
-                      tk: tk80,
-                    ),
-                    prescriptionMedicine(
-                      image: imgLosectil,
-                      tittle: losectil,
-                      tk: tk4,
-                    ),
-                    prescriptionMedicine(
-                      image: imgAcePlus,
-                      tittle: acePlus,
-                      tk: tk1,
-                    ),
-                  ],
+                GridView.count(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: 0.73,
+                  children: List.generate(
+                      9,
+                          (index) => diabetesMedicine(
+                              image: frequentlyAskedMedicineImgList[index],
+                              tittle: frequentlyAskedMedicineTitleList[index],
+                              tk: tk8)
+                  ),
                 ),
                 24.heightBox,
                 Container(
                   width: double.infinity,
-                  height: 120,
+                  height: 140,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(b2), fit: BoxFit.fill)),
+                ),
+
+                24.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      medicalEquipment,
+                      style: TextStyle(
+                          color: titleColor, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      seeAll,
+                      style: TextStyle(color: white),
+                    )
+                        .onTap(() => SeeAllScreen().launch(context))
+                        .box
+                        .color(mainColor)
+                        .padding(EdgeInsets.all(4))
+                        .roundedSM
+                        .make(),
+                  ],
+                ),
+                24.heightBox,
+                GridView.count(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: 0.73,
+                  children: List.generate(
+                      9,
+                          (index) => medicalEquipement(
+                          image: frequentlyAskedMedicineImgList[index],
+                          tittle: frequentlyAskedMedicineTitleList[index],
+                          tk: tk8)
+                  ),
                 ),
                 24.heightBox,
                 Row(
@@ -464,9 +517,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   physics: BouncingScrollPhysics(),
                   itemCount: familyNeedTitleList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return otcMedicine(
-                        image: familyNeedImageList[index],
-                        title: familyNeedTitleList[index]);
+                    return familyNeeds(
+                      image: familyNeedImageList[index],
+                      tittle: familyNeedTitleList[index],
+                    );
                   },
                 ),
                 24.heightBox,
@@ -483,9 +537,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 16),
                         ),
-                        10.heightBox,
+                        5.heightBox,
                         SizedBox(
-                          width: ContextExtensions(context).width() / 1.8,
+                          width: ContextExtensionss(context).width * 0.6,
                           child: Text(
                             ambulanceDescription,
                             textAlign: TextAlign.start,
@@ -497,17 +551,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         10.heightBox,
                         ourIconButton(
-                          icon: MdiIcons.phone,
-                            onPress: () =>  launchDialer(number),
+                            icon: MdiIcons.phone,
+                            onPress: () => launchDialer(number),
                             color: mainColor,
                             textColor: white,
                             tittle: mobileNumber,
                             width: ContextExtensions(context).width() / 2)
                       ],
                     ),
+                    //  Spacer(),
                     Container(
-                      width: 140,
-                      height: 120,
+                      width: 120,
+                      height: 100,
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage(

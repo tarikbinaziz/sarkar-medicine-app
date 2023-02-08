@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:medicine_app/consts/consts.dart';
 import 'package:medicine_app/screens/Auth/signin.dart';
@@ -13,6 +12,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
   void initState() {
     Timer(Duration(seconds: 3),
         () => SigninScreen().launch(context,isNewTask: true));

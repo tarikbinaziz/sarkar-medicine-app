@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:medicine_app/consts/colors.dart';
-import 'package:velocity_x/velocity_x.dart';
 import '../../consts/images.dart';
 import '../../consts/strings.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
-
   @override
   State<CartScreen> createState() => _CartScreenState();
 }

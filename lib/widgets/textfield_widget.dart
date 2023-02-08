@@ -15,7 +15,7 @@ Widget customTextField({String? tittle,String? hint,controller}) {
           filled: true,
           hintText: hint,
           isDense: true,
-          contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+       //   contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
           hintStyle: TextStyle(fontFamily: semibold,color: textFieldGrey),
           suffixIcon: Icon(Icons.search,color: fontGrey,),
           border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(20)),

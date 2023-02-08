@@ -23,6 +23,15 @@ class ComplainSuggestionScreen extends StatelessWidget {
         child: Column(
           children: [
             10.heightBox,
+            Text("Review",style: TextStyle(color: titleColor,fontSize: 20),),
+            10.heightBox,
+            RatingBarWidget(
+              activeColor: golden,
+              rating: 0,
+              onRatingChanged: (aRating) {
+              },
+            ),
+            30.heightBox,
             AppTextField(
               textFieldType: TextFieldType.NAME,
               decoration: InputDecoration(

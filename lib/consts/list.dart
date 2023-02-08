@@ -3,6 +3,7 @@ import 'package:medicine_app/consts/strings.dart';
 import 'images.dart';
 
 const bannerList = [b1, b2, b3, b4];
+
 const frequentlyAskedMedicineImgList = [
   imgNapa,
   imgLosectil,
@@ -10,7 +11,12 @@ const frequentlyAskedMedicineImgList = [
   imgNapa,
   imgLosectil,
   imgAcePlus,
-];const seeAllFrequentlyAskedMedicineImgList = [
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+];
+
+const seeAllFrequentlyAskedMedicineImgList = [
   imgNapa,
   imgLosectil,
   imgAcePlus,
@@ -37,7 +43,36 @@ const frequentlyAskedMedicineTitleList = [
   napa,
   losectil,
   acePlus,
-];const seeAllfrequentlyAskedMedicineTitleList = [
+  napa,
+  losectil,
+  acePlus,
+];
+
+const prescriptionMedicineImageList=[
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+  imgNapa,
+  imgLosectil,
+  imgAcePlus,
+];
+
+const prescriptionMedicineTitleList = [
+  napa,
+  losectil,
+  acePlus,
+  napa,
+  losectil,
+  acePlus,
+  napa,
+  losectil,
+  acePlus,
+];
+
+const seeAllfrequentlyAskedMedicineTitleList = [
   napa,
   losectil,
   acePlus,
@@ -56,8 +91,8 @@ const frequentlyAskedMedicineTitleList = [
   losectil,
   acePlus,
 ];
-const familyNeedImageList = [imgBaby, imgMom, imgAdole, imgMen, imgWomen];
-const familyNeedTitleList = [baby, mom, adolescence, men, women];
+const familyNeedImageList = [imgBaby, imgMom, imgMen, imgWomen];
+const familyNeedTitleList = [baby, mom,  men, women];
 const otcDescriptionList = [
   "Chloroxyleno",
   "Back pain",

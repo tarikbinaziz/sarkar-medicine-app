@@ -2,8 +2,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';
 import '../../../consts/consts.dart';
 
-
-Widget otcMedicine({
+Widget diabetesMedicine({
   String? image,
   String? tittle,
   String? tk,
@@ -26,7 +25,7 @@ Widget otcMedicine({
               image:
               DecorationImage(image: AssetImage(image!), fit: BoxFit.fill)),
         ),
-  Spacer(),
+        Spacer(),
 
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
@@ -74,6 +73,6 @@ Widget otcMedicine({
       ],
     ),
 
-  ).box.topRounded().outerShadow.topRounded().margin(EdgeInsets.all(2)).make();
+  ).box.topRounded().outerShadow.margin(EdgeInsets.all(2)).rounded.make();
 
 }

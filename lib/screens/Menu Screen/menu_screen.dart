@@ -25,7 +25,15 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: customAppBar(title: userProfile),
+      appBar: customAppBar(title: userProfile, list: [
+        Padding(
+          padding: const EdgeInsets.only(right: 12.0),
+          child: Icon(
+            Icons.share,
+            color: titleColor,
+          ),
+        )
+      ]),
       // AppBar(
       //   backgroundColor: Colors.white,
       //   elevation: 0,
@@ -69,8 +77,8 @@ class MenuScreen extends StatelessWidget {
                 5.heightBox,
                 Text(
                   rakib,
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
                 ),
                 10.heightBox,
                 ToggleSwitch(
@@ -99,15 +107,24 @@ class MenuScreen extends StatelessWidget {
                   indent: 50,
                 ),
                 24.heightBox,
-                customFeature(MdiIcons.shopping, myOrder).onTap(()=>OrderDetailsScreen().launch(context)),
-                customFeature(Icons.location_on_outlined, myAdress).onTap(()=>MyAddressScreen().launch(context)),
-                customFeature(MdiIcons.heart, wishlist).onTap(() => WishlistScreen().launch(context)),
-                customFeature(Icons.add_location_alt_outlined, trackOrder).onTap(()=>TrackOrderScreen().launch(context)),
-                customFeature(MdiIcons.accountEdit, editProfile).onTap(() => EditProfileScreen().launch(context)),
-                customFeature(MdiIcons.faceAgent, supportCenter).onTap(()=>SupportCenterScreen().launch(context)),
-                customFeature(MdiIcons.noteAlert, complainSuggestion).onTap(()=>ComplainSuggestionScreen().launch(context)),
-                customFeature(Icons.settings, settings).onTap(()=>SettingsScreen().launch(context)),
-                customFeature(Icons.book_online, termsCondition).onTap(()=>TermCondition().launch(context)),
+                customFeature(MdiIcons.shopping, myOrder)
+                    .onTap(() => OrderDetailsScreen().launch(context)),
+                customFeature(Icons.location_on_outlined, myAdress)
+                    .onTap(() => MyAddressScreen().launch(context)),
+                customFeature(MdiIcons.heart, wishlist)
+                    .onTap(() => WishlistScreen().launch(context)),
+                customFeature(Icons.add_location_alt_outlined, trackOrder)
+                    .onTap(() => TrackOrderScreen().launch(context)),
+                customFeature(MdiIcons.accountEdit, editProfile)
+                    .onTap(() => EditProfileScreen().launch(context)),
+                customFeature(MdiIcons.faceAgent, supportCenter)
+                    .onTap(() => SupportCenterScreen().launch(context)),
+                customFeature(MdiIcons.noteAlert, complainSuggestion)
+                    .onTap(() => ComplainSuggestionScreen().launch(context)),
+                customFeature(Icons.settings, settings)
+                    .onTap(() => SettingsScreen().launch(context)),
+                customFeature(Icons.book_online, termsCondition)
+                    .onTap(() => TermCondition().launch(context)),
                 10.heightBox,
                 Divider(
                   thickness: 1,
@@ -131,7 +148,7 @@ class MenuScreen extends StatelessWidget {
                       child: Center(child: Text(logOut)),
                     )
                   ],
-                ).onTap(()=>SigninScreen().launch(context)),
+                ).onTap(() => SigninScreen().launch(context)),
                 20.heightBox,
               ],
             ),

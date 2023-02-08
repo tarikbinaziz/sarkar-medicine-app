@@ -9,6 +9,8 @@ const icWhatsapp="assets/icons/whatsapp.png";
 const icChat="assets/icons/chat.png";
 const icUploadRx="assets/icons/upload_rx.png";
 const icTruckOrder="assets/icons/truck_order.png";
+const icSearch="assets/icons/search.png";
+const icBag="assets/icons/bag.png";
 
 
 //images
@@ -20,8 +22,8 @@ const prescriptionBanner="assets/images/prescripton_banner.png";
 const imgBaby="assets/images/baby.png";
 const imgMom="assets/images/mom.png";
 const imgAdole="assets/images/adolesences.jpg";
-const imgWomen="assets/images/female.png";
-const imgMen="assets/images/male.png";
+const imgWomen="assets/images/women.JPG";
+const imgMen="assets/images/men.JPG";
 const imgNapa="assets/images/napa.png";
 const imgLosectil="assets/images/losectil.png";
 const imgAcePlus ="assets/images/ace_plus.png";

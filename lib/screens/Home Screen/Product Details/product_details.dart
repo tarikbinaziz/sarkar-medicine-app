@@ -81,8 +81,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 children: [
                 Image.asset(
                   imgNapa,
-                  width: context.width / 2,
-                ),
+                //  width:160,
+                ).box.width(220).height(180).padding(EdgeInsets.all(20)).white.make(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -280,8 +280,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
               Text(
                 offerDetails,
-                style: TextStyle(color: titleColor, fontWeight: FontWeight.bold),
-              ).box.border(color: textFieldGrey).padding(EdgeInsets.all(20)).make(),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: titleColor,height: 1.8),
+              ).box.width(300).border(color: textFieldGrey).padding(EdgeInsets.all(20)).makeCentered(),
               SizedBox(
                 height: 24,
               ),

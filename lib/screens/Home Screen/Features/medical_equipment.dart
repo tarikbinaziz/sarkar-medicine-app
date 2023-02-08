@@ -2,16 +2,14 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';
 import '../../../consts/consts.dart';
 
-
-Widget otcMedicine({
+Widget medicalEquipement({
   String? image,
   String? tittle,
   String? tk,
-
 }) {
   return Container(
     width: 90,
-    padding: EdgeInsets.all( 6),
+    padding: EdgeInsets.all(6),
     decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -26,8 +24,7 @@ Widget otcMedicine({
               image:
               DecorationImage(image: AssetImage(image!), fit: BoxFit.fill)),
         ),
-  Spacer(),
-
+        Spacer(),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Column(
@@ -40,7 +37,6 @@ Widget otcMedicine({
                 TextStyle(color: darkFontGrey, fontWeight: FontWeight.w500),
               ),
               5.heightBox,
-
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -49,22 +45,29 @@ Widget otcMedicine({
                     size: 12,
                     color: redColorMain,
                   ),
-                  SizedBox(width: 5,),
+                  SizedBox(
+                    width: 5,
+                  ),
                   Text(
                     tk!,
-                    style: TextStyle(color: redColorMain,),
+                    style: TextStyle(
+                      color: redColorMain,
+                    ),
                   ),
                   Spacer(),
-
                   ImageIcon(
                     AssetImage(icTakaSign),
                     size: 8,
                     color: fontGrey,
                   ),
-                  SizedBox(width: 5,),
+                  SizedBox(
+                    width: 5,
+                  ),
                   Text(
-                    tk!,
-                    style: TextStyle(color: fontGrey,decoration: TextDecoration.lineThrough),
+                    tk,
+                    style: TextStyle(
+                        color: fontGrey,
+                        decoration: TextDecoration.lineThrough),
                   ),
                 ],
               )
@@ -73,7 +76,5 @@ Widget otcMedicine({
         )
       ],
     ),
-
   ).box.topRounded().outerShadow.topRounded().margin(EdgeInsets.all(2)).make();
-
 }
