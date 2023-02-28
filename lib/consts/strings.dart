@@ -39,8 +39,6 @@ const ambulanceDescription =
 const mobileNumber = "+8801325780405";
 const tablet="Tablet";
 
-
-
 //product details screen
 const myCart = "MY CART";
 const cartNapa = "Napa";

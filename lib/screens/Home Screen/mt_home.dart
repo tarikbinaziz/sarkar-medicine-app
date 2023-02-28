@@ -13,6 +13,7 @@ import '../../widgets/button_widget.dart';
 import '../../widgets/fab_speed_dial.dart';
 import '../../widgets/icon_button_widget.dart';
 import '../../widgets/url_launcher.dart';
+import 'Baby/baby.dart';
 import 'Features/dealsOfTheDay.dart';
 import 'Features/diabetes_medicine.dart';
 import 'Features/familly_needs.dart';
@@ -41,14 +42,17 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: bgColor,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        titleSpacing: 0.0,
         elevation: 0,
-        leadingWidth: 100,
-        leading: Container(
-          width: 120,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(imgOsudKiniFullLogo), fit: BoxFit.cover)),
-        ),
+       // leadingWidth: 116,
+        title:Image.asset(imgOsudKiniFullLogo,width: 110,),
+        // Container(
+        //   decoration: BoxDecoration(
+        //       image: DecorationImage(
+        //           image: AssetImage(imgOsudKiniFullLogo),
+        //           fit: BoxFit.fitWidth)),
+        // ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 4.0, right: 5),
@@ -155,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: bannerList.length,
                     itemBuilder: (_, index, realIndex) {
                       return SizedBox(
-                        width: double.infinity,
+                      
                         child: Image.asset(
                           bannerList[index],
                           fit: BoxFit.fill,
@@ -163,8 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     options: CarouselOptions(
-                        height: 140,
-                        enlargeCenterPage: true,
+                      aspectRatio: 16/6,
+                     //   enlargeCenterPage: true,
                         viewportFraction: 1,
                         autoPlay: true,
                         onPageChanged: (index, reason) {
@@ -301,17 +305,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 24.heightBox,
-
                 GridView.count(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   crossAxisCount: 3,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 8.0,
-                  childAspectRatio:0.73,
+                  childAspectRatio: 0.73,
                   children: List.generate(
                       9,
-                          (index) => prescriptionMedicine(
+                      (index) => prescriptionMedicine(
                           image: frequentlyAskedMedicineImgList[index],
                           tittle: frequentlyAskedMedicineTitleList[index],
                           tk: tk8)),
@@ -363,11 +366,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   childAspectRatio: 0.73,
                   children: List.generate(
                       9,
-                          (index) => dealsOfTheDay(
-                              image: frequentlyAskedMedicineImgList[index],
-                              tittle: frequentlyAskedMedicineTitleList[index],
-                              tk: tk8)
-                  ),
+                      (index) => dealsOfTheDay(
+                          image: frequentlyAskedMedicineImgList[index],
+                          tittle: frequentlyAskedMedicineTitleList[index],
+                          tk: tk8)),
                 ),
                 24.heightBox,
                 Row(
@@ -400,11 +402,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   childAspectRatio: 0.73,
                   children: List.generate(
                       9,
-                          (index) => otcMedicine(
-                              image: frequentlyAskedMedicineImgList[index],
-                              tittle: frequentlyAskedMedicineTitleList[index],
-                              tk: tk8)
-                  ),
+                      (index) => otcMedicine(
+                          image: frequentlyAskedMedicineImgList[index],
+                          tittle: frequentlyAskedMedicineTitleList[index],
+                          tk: tk8)),
                 ),
                 16.heightBox,
                 Row(
@@ -437,11 +438,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   childAspectRatio: 0.73,
                   children: List.generate(
                       9,
-                          (index) => diabetesMedicine(
-                              image: frequentlyAskedMedicineImgList[index],
-                              tittle: frequentlyAskedMedicineTitleList[index],
-                              tk: tk8)
-                  ),
+                      (index) => diabetesMedicine(
+                          image: frequentlyAskedMedicineImgList[index],
+                          tittle: frequentlyAskedMedicineTitleList[index],
+                          tk: tk8)),
                 ),
                 24.heightBox,
                 Container(
@@ -451,7 +451,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       image: DecorationImage(
                           image: AssetImage(b2), fit: BoxFit.fill)),
                 ),
-
                 24.heightBox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -483,11 +482,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   childAspectRatio: 0.73,
                   children: List.generate(
                       9,
-                          (index) => medicalEquipement(
+                      (index) => medicalEquipement(
                           image: frequentlyAskedMedicineImgList[index],
                           tittle: frequentlyAskedMedicineTitleList[index],
-                          tk: tk8)
-                  ),
+                          tk: tk8)),
                 ),
                 24.heightBox,
                 Row(
@@ -520,7 +518,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return familyNeeds(
                       image: familyNeedImageList[index],
                       tittle: familyNeedTitleList[index],
-                    );
+                    ).onTap(()=>index==0?BabyProductScreen().launch(context):null);
                   },
                 ),
                 24.heightBox,
