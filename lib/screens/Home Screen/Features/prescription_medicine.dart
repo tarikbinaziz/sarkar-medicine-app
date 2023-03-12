@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../consts/consts.dart';
 
 Widget prescriptionMedicine({
-  String? image,
+ String? image,
   String? tittle,
   String? tk,
 
@@ -24,7 +24,7 @@ Widget prescriptionMedicine({
           margin: EdgeInsets.all(8),
           decoration: BoxDecoration(
               image:
-              DecorationImage(image: AssetImage(image!), fit: BoxFit.fill)),
+              DecorationImage(image: NetworkImage(image!), )),
         ),
         Spacer(),
 

@@ -18,11 +18,11 @@ class MyApp extends StatelessWidget {
     ));
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme.apply())),
+      theme: ThemeData(
+          textTheme: GoogleFonts.poppinsTextTheme(
+              Theme.of(context).textTheme.apply())),
       home: SplashScreen(),
       //HomeBottomNavBarScreen(),
     );
   }
 }
-
-

@@ -1,18 +1,24 @@
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:medicine_app/consts/consts.dart';
-import 'package:medicine_app/screens/Home%20Screen/See%20All/see_all.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:slide_countdown/slide_countdown.dart';
+import 'package:velocity_x/velocity_x.dart';
+import '../../Models/Familly needs/FamillyNeedsModel.dart';
+import '../../Models/prescription model/PrecriptionMedicine.dart';
+import '../../consts/colors.dart';
+import '../../consts/images.dart';
 import '../../consts/list.dart';
+import '../../consts/strings.dart';
+import '../../services/get_api.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/fab_speed_dial.dart';
 import '../../widgets/icon_button_widget.dart';
 import '../../widgets/url_launcher.dart';
+import '../Menu Screen/menu_screen.dart';
 import 'Baby/baby.dart';
 import 'Features/dealsOfTheDay.dart';
 import 'Features/diabetes_medicine.dart';
@@ -20,8 +26,7 @@ import 'Features/familly_needs.dart';
 import 'Features/frequently_asked_medicine.dart';
 import 'Features/medical_equipment.dart';
 import 'Features/otc_medicine_container.dart';
-import 'Features/prescription_medicine.dart';
-import "package:flutter_feather_icons/flutter_feather_icons.dart";
+import 'See All/see_all.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,6 +41,24 @@ class _HomeScreenState extends State<HomeScreen> {
   var defaultDuration = Duration(days: 2, hours: 2, minutes: 30);
   var defaultPadding = EdgeInsets.symmetric(horizontal: 10, vertical: 5);
 
+  // Future<PrescriptionMedicine> getPrescriptionMedicine() async {
+  //   var response =
+  //       await http.get(Uri.parse("https://osudkini.com/api/v1/products/related/2"));
+  //   var responseData = jsonDecode(response.body.toString());
+  //   if (response.statusCode == 200) {
+  //     return PrescriptionMedicine.fromJson(responseData);
+  //   } else {
+  //     return PrescriptionMedicine.fromJson(responseData);
+  //   }
+  // }
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   getPrescriptionMedicine();
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +68,11 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
         titleSpacing: 0.0,
         elevation: 0,
-       // leadingWidth: 116,
-        title:Image.asset(imgOsudKiniFullLogo,width: 110,),
+        // leadingWidth: 116,
+        title: Image.asset(
+          imgOsudKiniFullLogo,
+          width: 110,
+        ),
         // Container(
         //   decoration: BoxDecoration(
         //       image: DecorationImage(
@@ -159,7 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: bannerList.length,
                     itemBuilder: (_, index, realIndex) {
                       return SizedBox(
-                      
                         child: Image.asset(
                           bannerList[index],
                           fit: BoxFit.fill,
@@ -167,8 +192,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     options: CarouselOptions(
-                      aspectRatio: 16/6,
-                     //   enlargeCenterPage: true,
+                        aspectRatio: 16 / 6,
+                        //   enlargeCenterPage: true,
                         viewportFraction: 1,
                         autoPlay: true,
                         onPageChanged: (index, reason) {
@@ -305,19 +330,139 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 24.heightBox,
-                GridView.count(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 8.0,
-                  childAspectRatio: 0.73,
-                  children: List.generate(
-                      9,
-                      (index) => prescriptionMedicine(
-                          image: frequentlyAskedMedicineImgList[index],
-                          tittle: frequentlyAskedMedicineTitleList[index],
-                          tk: tk8)),
+                // FutureBuilder<PrescriptionMedicineModel>(
+                //   future: getPrescriptionMedicine(),
+                //   builder: (BuildContext context, snapshot) {
+                //     if (snapshot.hasData) {
+                //       return GridView.builder(
+                //         shrinkWrap: true,
+                //         itemCount: snapshot.data!.data!.length,
+                //         physics: NeverScrollableScrollPhysics(),
+                //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //             crossAxisCount: 3),
+                //         itemBuilder: (BuildContext context, int index) {
+                //           return prescriptionMedicine(
+                //               tittle: snapshot.data!.data![index].name,
+                //               tk: snapshot.data!.data![index].unit,
+                //               image:
+                //                   snapshot.data!.data![index].thumbnailImage);
+                //         },
+                //       );
+                //     } else {
+                //       return CircularProgressIndicator();
+                //     }
+                //   },
+                // ),
+                FutureBuilder<PrescriptionMedicine>(
+                  future: getPrescriptionMedicine(),
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.hasData) {
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.data!.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 6,
+                            crossAxisSpacing: 6,
+                            childAspectRatio: 0.7),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            width: 90,
+                            padding: EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 90,
+                                  height: 60,
+                                  margin: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                    image: NetworkImage(snapshot
+                                        .data!.data![index].thumbnailImage
+                                        .toString()),
+                                  )),
+                                ),
+                                Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.data![index].name
+                                            .toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: darkFontGrey,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      5.heightBox,
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ImageIcon(
+                                            AssetImage(icTakaSign),
+                                            size: 8,
+                                            color: redColorMain,
+                                          ),
+                                          Text(
+                                            snapshot
+                                                .data!.data![index].basePrice
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: redColorMain,
+                                                fontSize: 12),
+                                          ),
+                                          Spacer(),
+                                          ImageIcon(
+                                            AssetImage(icTakaSign),
+                                            size: 8,
+                                            color: fontGrey,
+                                          ),
+                                          Flexible(
+                                            child: FittedBox(
+                                              fit: BoxFit.contain,
+                                              child: Text(
+                                                snapshot.data!.data![index]
+                                                    .baseDiscountedPrice
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: fontGrey,
+                                                    fontSize: 12,
+                                                    decoration: TextDecoration
+                                                        .lineThrough),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                              .box
+                              .topRounded()
+                              .outerShadow
+                              .topRounded()
+                              .margin(EdgeInsets.all(2))
+                              .make();
+                        },
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
                 ),
                 24.heightBox,
                 Container(
@@ -357,6 +502,113 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 24.heightBox,
+                // FutureBuilder(
+                //     future: getDealsOfTheMedicine(),
+                //     builder: (BuildContext context,AsyncSnapshot<DealsofTheDayModel> snapshot) {
+                //       if (snapshot.hasData) {
+                //         return GridView.builder(
+                //           itemCount:10,
+                //             gridDelegate:
+                //                 SliverGridDelegateWithFixedCrossAxisCount(
+                //                     crossAxisCount: 3),
+                //             itemBuilder: (_, index) {
+                //               return Container(
+                //                 width: 90,
+                //                 padding: EdgeInsets.all(6),
+                //                 decoration: BoxDecoration(
+                //                     color: Colors.white,
+                //                     borderRadius: BorderRadius.only(
+                //                         topLeft: Radius.circular(20),
+                //                         topRight: Radius.circular(20))),
+                //                 child: Column(
+                //                   crossAxisAlignment: CrossAxisAlignment.start,
+                //                   children: [
+                //                     Container(
+                //                       width: 90,
+                //                       height: 60,
+                //                       margin: EdgeInsets.all(8),
+                //                       decoration: BoxDecoration(
+                //                           image: DecorationImage(
+                //                             image: NetworkImage(
+                //                               snapshot.data.data[index].
+                //
+                //                                 ),
+                //                           )),
+                //                     ),
+                //                     Spacer(),
+                //                     Padding(
+                //                       padding: const EdgeInsets.only(left: 8.0),
+                //                       child: Column(
+                //                         crossAxisAlignment:
+                //                         CrossAxisAlignment.start,
+                //                         children: [
+                //                           Text(
+                //                             snapshot.data!.data..name
+                //                                 .toString(),
+                //                             overflow: TextOverflow.ellipsis,
+                //                             style: TextStyle(
+                //                                 color: darkFontGrey,
+                //                                 fontWeight: FontWeight.w500),
+                //                           ),
+                //                           5.heightBox,
+                //                           Row(
+                //                             crossAxisAlignment:
+                //                             CrossAxisAlignment.start,
+                //                             children: [
+                //                               ImageIcon(
+                //                                 AssetImage(icTakaSign),
+                //                                 size: 8,
+                //                                 color: redColorMain,
+                //                               ),
+                //                               Text(
+                //                                 snapshot
+                //                                     .data!.data![index].basePrice
+                //                                     .toString(),
+                //                                 style: TextStyle(
+                //                                     color: redColorMain,
+                //                                     fontSize: 12),
+                //                               ),
+                //                               Spacer(),
+                //                               ImageIcon(
+                //                                 AssetImage(icTakaSign),
+                //                                 size: 8,
+                //                                 color: fontGrey,
+                //                               ),
+                //                               Flexible(
+                //                                 child: FittedBox(
+                //                                   fit: BoxFit.contain,
+                //                                   child: Text(
+                //                                     snapshot.data!.data![index]
+                //                                         .baseDiscountedPrice
+                //                                         .toString(),
+                //                                     style: TextStyle(
+                //                                         color: fontGrey,
+                //                                         fontSize: 12,
+                //                                         decoration: TextDecoration
+                //                                             .lineThrough),
+                //                                   ),
+                //                                 ),
+                //                               ),
+                //                             ],
+                //                           ),
+                //                         ],
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //               )
+                //                   .box
+                //                   .topRounded()
+                //                   .outerShadow
+                //                   .topRounded()
+                //                   .margin(EdgeInsets.all(2))
+                //                   .make();
+                //
+                //             });
+                //       } else {
+                //         return CircularProgressIndicator();
+                //       }
+                //     }),
                 GridView.count(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -509,6 +761,67 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 24.heightBox,
+                FutureBuilder<FamillyNeedsModel>(
+                    future: getFamillyNeeds(),
+                    builder: (BuildContext context, snapshot) {
+                      if(snapshot.hasData){
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: 10,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4,
+                            childAspectRatio: 0.7
+
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 100,
+                              width: 83,
+                              padding: EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20))),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.all(4),
+                                    width: 65,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                snapshot.data!.data![index].banner.toString()))),
+                                  ),
+                                  4.heightBox,
+                                  Text(
+                                    snapshot.data!.data![index].name.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: darkFontGrey,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            )
+                                .box
+                                .height(200)
+                                .width(100)
+                                .topRounded()
+                                .outerShadow
+                                .margin(EdgeInsets.all(2))
+                                .rounded
+                                .make();
+                          },
+                        );
+                      }else{
+                        return CircularProgressIndicator();
+
+                      }
+
+                    }),
                 HorizontalList(
                   runSpacing: 0.0,
                   padding: EdgeInsets.zero,
@@ -518,7 +831,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     return familyNeeds(
                       image: familyNeedImageList[index],
                       tittle: familyNeedTitleList[index],
-                    ).onTap(()=>index==0?BabyProductScreen().launch(context):null);
+                    ).onTap(() => index == 0
+                        ? BabyProductScreen().launch(context)
+                        : null);
                   },
                 ),
                 24.heightBox,
@@ -537,7 +852,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         5.heightBox,
                         SizedBox(
-                          width: ContextExtensionss(context).width * 0.6,
+                          width:context.width()*0.6,
                           child: Text(
                             ambulanceDescription,
                             textAlign: TextAlign.start,
