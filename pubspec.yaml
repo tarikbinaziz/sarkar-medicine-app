@@ -56,8 +56,8 @@ dependencies:
   geocoding: ^2.0.5
   flutter_google_places: ^0.3.0
   http: ^0.13.5
-  flutter_typeahead: ^4.3.2
   cached_network_image: ^3.2.3
+  flutter_typeahead: ^4.3.7
 
 
 dev_dependencies:

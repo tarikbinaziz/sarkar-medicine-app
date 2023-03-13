@@ -4,6 +4,7 @@
 import 'dart:convert';
 
 import '../Models/Familly needs/FamillyNeedsModel.dart';
+import '../Models/deals of the day/DealsOfTheModel.dart';
 import '../Models/prescription model/PrecriptionMedicine.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,7 +20,16 @@ Future<PrescriptionMedicine> getPrescriptionMedicine() async {
 }
 
 //deals of the medicine api get
-
+Future<DealsOfTheModel> getDealsOfTheDayMedicine() async {
+  var response =
+  await http.get(Uri.parse("https://osudkini.com/api/v1/products/flash-deal"));
+  var responseData = jsonDecode(response.body.toString());
+  if (response.statusCode == 200) {
+    return DealsOfTheModel.fromJson(responseData);
+  } else {
+    return DealsOfTheModel.fromJson(responseData);
+  }
+}
 
 
 //deals of the medicine api get
@@ -34,3 +44,6 @@ Future <FamillyNeedsModel> getFamillyNeeds() async{
   }
 
 }
+
+// search product api
+

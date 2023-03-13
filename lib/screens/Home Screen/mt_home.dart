@@ -1,13 +1,16 @@
+import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../../Models/Familly needs/FamillyNeedsModel.dart';
+import '../../Models/deals of the day/DealsOfTheModel.dart';
 import '../../Models/prescription model/PrecriptionMedicine.dart';
 import '../../consts/colors.dart';
 import '../../consts/images.dart';
@@ -27,6 +30,7 @@ import 'Features/frequently_asked_medicine.dart';
 import 'Features/medical_equipment.dart';
 import 'Features/otc_medicine_container.dart';
 import 'See All/see_all.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -40,24 +44,74 @@ class _HomeScreenState extends State<HomeScreen> {
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
   var defaultDuration = Duration(days: 2, hours: 2, minutes: 30);
   var defaultPadding = EdgeInsets.symmetric(horizontal: 10, vertical: 5);
+  TextEditingController _controller = TextEditingController();
 
-  // Future<PrescriptionMedicine> getPrescriptionMedicine() async {
-  //   var response =
-  //       await http.get(Uri.parse("https://osudkini.com/api/v1/products/related/2"));
-  //   var responseData = jsonDecode(response.body.toString());
-  //   if (response.statusCode == 200) {
-  //     return PrescriptionMedicine.fromJson(responseData);
-  //   } else {
-  //     return PrescriptionMedicine.fromJson(responseData);
+  // Future<List<String>> _getSuggestions(String query) async {
+  //   String url = 'https://osudkini.com/api/v1/products/search?q=$query';
+  //   http.Response response = await http.get(Uri.parse(url));
+  //   List<dynamic> data = json.decode(response.body);
+  //   List<String> suggestions = [];
+  //   for (var item in data) {
+  //     suggestions.add(item['name']);
   //   }
+  //   return suggestions;
   // }
+  // Future<List<String>> _getSuggestions(String query) async {
+  //   String url = 'https://osudkini.com/api/v1/products/search?q=$query';
+  //   http.Response response = await http.get(Uri.parse(url));
+  //   Map<String, dynamic> data = json.decode(response.body);
+  //   List<String> suggestions = [];
+  //   for (var item in data['items']) {
+  //     suggestions.add(item['name']);
+  //   }
+  //   return suggestions;
+  // }
+  // Future<List<String>> _getSuggestions(String query) async {
+  //   String url = 'https://osudkini.com/api/v1/products/search?q=$query';
+  //   http.Response response = await http.get(Uri.parse(url));
+  //   Map<String, dynamic> data = json.decode(response.body);
+  //   List<String> suggestions = [];
+  //   List<dynamic>? items = data['items'];
+  //   if (items != null) {
+  //     for (var item in items) {
+  //       String? name = item['name'];
+  //       if (name != null) {
+  //         suggestions.add(name);
+  //       }
+  //     }
+  //   }
+  //   return suggestions;
+  // }
+  // Future<List<String>> _getSuggestions(String query) async {
+  //   String url = 'https://osudkini.com/api/v1/products/search?q=$query';
+  //   http.Response response = await http.get(Uri.parse(url));
+  //   List<dynamic> data = json.decode(response.body);
+  //   List<String> suggestions = [];
+  //   for (var item in data) {
+  //     String? name = item['name'];
+  //     if (name != null) {
+  //       suggestions.add(name);
+  //     }
+  //   }
+  //   return suggestions;
+  // }
+  Future<List<String>> _getSuggestions(String query) async {
+    String url = 'https://osudkini.com/api/v1/products/search?q=$query';
+    http.Response response = await http.get(Uri.parse(url));
+    Map<String, dynamic> data = json.decode(response.body);
+    List<String> suggestions = [];
+    List<dynamic>? items = data['data'];
+    if (items != null) {
+      for (var item in items) {
+        String? name = item['name'];
+        if (name != null) {
+          suggestions.add(name);
+        }
+      }
+    }
+    return suggestions;
+  }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   getPrescriptionMedicine();
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +218,29 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                TypeAheadFormField(
+                  textFieldConfiguration: TextFieldConfiguration(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      labelText: 'Search',
+                    ),
+                  ),
+                  suggestionsCallback: (query) async {
+                    return await _getSuggestions(query);
+                  },
+                  itemBuilder: (context, suggestion) {
+                    return ListTile(
+                      title: Text(suggestion),
+                    );
+                  },
+                  onSuggestionSelected: (suggestion) {
+                    setState(() {
+                      _controller.text = suggestion;
+                    });
+                  },
+                ),
+
+
                 AppTextField(
                   textFieldType: TextFieldType.NAME,
                   decoration: InputDecoration(
@@ -383,15 +460,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: 60,
                                   margin: EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                    image: NetworkImage(snapshot
-                                        .data!.data![index].thumbnailImage
-                                        .toString()),
-                                  )),
+                                    image: DecorationImage(
+                                        image: NetworkImage(snapshot
+                                            .data!.data![index].thumbnailImage
+                                            .toString()),
+                                        fit: BoxFit.cover),
+                                  ),
                                 ),
                                 Spacer(),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, bottom: 10),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -420,9 +499,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 .toString(),
                                             style: TextStyle(
                                                 color: redColorMain,
-                                                fontSize: 12),
+                                                fontSize: 16),
                                           ),
-                                          Spacer(),
+                                          6.widthBox,
                                           ImageIcon(
                                             AssetImage(icTakaSign),
                                             size: 8,
@@ -430,14 +509,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           Flexible(
                                             child: FittedBox(
-                                              fit: BoxFit.contain,
+                                              fit: BoxFit.fill,
                                               child: Text(
                                                 snapshot.data!.data![index]
                                                     .baseDiscountedPrice
                                                     .toString(),
                                                 style: TextStyle(
                                                     color: fontGrey,
-                                                    fontSize: 12,
+                                                    fontSize: 14,
                                                     decoration: TextDecoration
                                                         .lineThrough),
                                               ),
@@ -502,127 +581,117 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 24.heightBox,
-                // FutureBuilder(
-                //     future: getDealsOfTheMedicine(),
-                //     builder: (BuildContext context,AsyncSnapshot<DealsofTheDayModel> snapshot) {
-                //       if (snapshot.hasData) {
-                //         return GridView.builder(
-                //           itemCount:10,
-                //             gridDelegate:
-                //                 SliverGridDelegateWithFixedCrossAxisCount(
-                //                     crossAxisCount: 3),
-                //             itemBuilder: (_, index) {
-                //               return Container(
-                //                 width: 90,
-                //                 padding: EdgeInsets.all(6),
-                //                 decoration: BoxDecoration(
-                //                     color: Colors.white,
-                //                     borderRadius: BorderRadius.only(
-                //                         topLeft: Radius.circular(20),
-                //                         topRight: Radius.circular(20))),
-                //                 child: Column(
-                //                   crossAxisAlignment: CrossAxisAlignment.start,
-                //                   children: [
-                //                     Container(
-                //                       width: 90,
-                //                       height: 60,
-                //                       margin: EdgeInsets.all(8),
-                //                       decoration: BoxDecoration(
-                //                           image: DecorationImage(
-                //                             image: NetworkImage(
-                //                               snapshot.data.data[index].
-                //
-                //                                 ),
-                //                           )),
-                //                     ),
-                //                     Spacer(),
-                //                     Padding(
-                //                       padding: const EdgeInsets.only(left: 8.0),
-                //                       child: Column(
-                //                         crossAxisAlignment:
-                //                         CrossAxisAlignment.start,
-                //                         children: [
-                //                           Text(
-                //                             snapshot.data!.data..name
-                //                                 .toString(),
-                //                             overflow: TextOverflow.ellipsis,
-                //                             style: TextStyle(
-                //                                 color: darkFontGrey,
-                //                                 fontWeight: FontWeight.w500),
-                //                           ),
-                //                           5.heightBox,
-                //                           Row(
-                //                             crossAxisAlignment:
-                //                             CrossAxisAlignment.start,
-                //                             children: [
-                //                               ImageIcon(
-                //                                 AssetImage(icTakaSign),
-                //                                 size: 8,
-                //                                 color: redColorMain,
-                //                               ),
-                //                               Text(
-                //                                 snapshot
-                //                                     .data!.data![index].basePrice
-                //                                     .toString(),
-                //                                 style: TextStyle(
-                //                                     color: redColorMain,
-                //                                     fontSize: 12),
-                //                               ),
-                //                               Spacer(),
-                //                               ImageIcon(
-                //                                 AssetImage(icTakaSign),
-                //                                 size: 8,
-                //                                 color: fontGrey,
-                //                               ),
-                //                               Flexible(
-                //                                 child: FittedBox(
-                //                                   fit: BoxFit.contain,
-                //                                   child: Text(
-                //                                     snapshot.data!.data![index]
-                //                                         .baseDiscountedPrice
-                //                                         .toString(),
-                //                                     style: TextStyle(
-                //                                         color: fontGrey,
-                //                                         fontSize: 12,
-                //                                         decoration: TextDecoration
-                //                                             .lineThrough),
-                //                                   ),
-                //                                 ),
-                //                               ),
-                //                             ],
-                //                           ),
-                //                         ],
-                //                       ),
-                //                     ),
-                //                   ],
-                //                 ),
-                //               )
-                //                   .box
-                //                   .topRounded()
-                //                   .outerShadow
-                //                   .topRounded()
-                //                   .margin(EdgeInsets.all(2))
-                //                   .make();
-                //
-                //             });
-                //       } else {
-                //         return CircularProgressIndicator();
-                //       }
-                //     }),
-                GridView.count(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 8.0,
-                  childAspectRatio: 0.73,
-                  children: List.generate(
-                      9,
-                      (index) => dealsOfTheDay(
-                          image: frequentlyAskedMedicineImgList[index],
-                          tittle: frequentlyAskedMedicineTitleList[index],
-                          tk: tk8)),
-                ),
+                FutureBuilder(
+                    future: getDealsOfTheDayMedicine(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DealsOfTheModel> snapshot) {
+                      if (snapshot.hasData) {
+                        return GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data!.data.products.data.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    childAspectRatio: 0.7,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10),
+                            itemBuilder: (_, index) {
+                              final product =
+                                  snapshot.data!.data.products.data[index];
+                              return Container(
+                                width: 90,
+                                padding: EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20))),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 90,
+                                      height: 60,
+                                      margin: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                product.thumbnailImage
+                                                    .toString(),
+                                              ),
+                                              fit: BoxFit.cover)),
+                                    ),
+                                    Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0,bottom: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            product.name.toString(),
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                color: darkFontGrey,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          5.heightBox,
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              ImageIcon(
+                                                AssetImage(icTakaSign),
+                                                size: 8,
+                                                color: redColorMain,
+                                              ),
+                                              Text(
+                                                product.basePrice
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: redColorMain,
+                                                    fontSize: 16),
+                                              ),
+                                              6.widthBox,
+                                              ImageIcon(
+                                                AssetImage(icTakaSign),
+                                                size: 8,
+                                                color: fontGrey,
+                                              ),
+                                              Flexible(
+                                                child: FittedBox(
+                                                  fit: BoxFit.fill,
+                                                  child: Text(
+                                                    product.baseDiscountedPrice
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        color: fontGrey,
+                                                        fontSize: 12,
+                                                        decoration: TextDecoration
+                                                            .lineThrough),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                                  .box
+                                  .topRounded()
+                                  .outerShadow
+                                  .topRounded()
+                                  .margin(EdgeInsets.all(2))
+                                  .make();
+                            });
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
                 24.heightBox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -764,16 +833,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 FutureBuilder<FamillyNeedsModel>(
                     future: getFamillyNeeds(),
                     builder: (BuildContext context, snapshot) {
-                      if(snapshot.hasData){
+                      if (snapshot.hasData) {
                         return GridView.builder(
                           shrinkWrap: true,
                           itemCount: 10,
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                            childAspectRatio: 0.7
-
-                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4, childAspectRatio: 0.7),
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
                               height: 100,
@@ -792,8 +859,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 60,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
-                                            image: NetworkImage(
-                                                snapshot.data!.data![index].banner.toString()))),
+                                            image: NetworkImage(snapshot
+                                                .data!.data![index].banner
+                                                .toString()))),
                                   ),
                                   4.heightBox,
                                   Text(
@@ -816,11 +884,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .make();
                           },
                         );
-                      }else{
+                      } else {
                         return CircularProgressIndicator();
-
                       }
-
                     }),
                 HorizontalList(
                   runSpacing: 0.0,
@@ -852,7 +918,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         5.heightBox,
                         SizedBox(
-                          width:context.width()*0.6,
+                          width: context.width() * 0.6,
                           child: Text(
                             ambulanceDescription,
                             textAlign: TextAlign.start,
